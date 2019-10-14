@@ -11,7 +11,7 @@
       <title>Posts</title>
       <link>/post/</link>
     </image>
-
+    
     <item>
       <title>Top Recipients of US Federal Contracts in FY 2018</title>
       <link>/post/top-recipients-of-us-federal-contracts-in-fy-2018/</link>
@@ -40,21 +40,21 @@ setwd(local_dir)
 # Loading that data
 # vroom can load multiple CSVs at once. The variable &amp;quot;files&amp;quot; stores the file names to do this.
 files &amp;lt;- fs::dir_ls(glob = &amp;quot;2018_all_Contracts_Full_20191010_*csv&amp;quot;)
-contracts18 &amp;lt;- vroom(files, delim = &amp;quot;,&amp;quot;, col_select = c(award_id_piid, award_description,
-                                                        product_or_service_code_description, action_date,
-                                                        naics_description, awarding_agency_name,
-                                                        awarding_sub_agency_name, recipient_name,
-                                                        recipient_country_name, recipient_state_name,
-                                                        recipient_city_name,
+contracts18 &amp;lt;- vroom(files, delim = &amp;quot;,&amp;quot;, col_select = c(award_id_piid, award_description, 
+                                                        product_or_service_code_description, action_date, 
+                                                        naics_description, awarding_agency_name, 
+                                                        awarding_sub_agency_name, recipient_name, 
+                                                        recipient_country_name, recipient_state_name, 
+                                                        recipient_city_name, 
                                                         federal_action_obligation))&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;compressing-and-formatting-the-data&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Compressing and Formatting the data&lt;/h1&gt;
 &lt;p&gt;Given the large files involved, I recommend compressing the data into a smaller format by summarizing down to only the information we care about.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Compressing the data by summarizing
-contracts18 &amp;lt;- contracts18 %&amp;gt;%
-  group_by(recipient_name, product_or_service_code_description, naics_description, awarding_agency_name,
-           awarding_sub_agency_name) %&amp;gt;%
+contracts18 &amp;lt;- contracts18 %&amp;gt;% 
+  group_by(recipient_name, product_or_service_code_description, naics_description, awarding_agency_name, 
+           awarding_sub_agency_name) %&amp;gt;% 
   summarise(fundsObligated = sum(federal_action_obligation))&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;beginning-the-analysis&#34; class=&#34;section level1&#34;&gt;
@@ -62,10 +62,10 @@ contracts18 &amp;lt;- contracts18 %&amp;gt;%
 &lt;p&gt;I wanted to see the top recipients of contract funding in FY 2018. So the first thing I did was summarize funds obligated according to recipient names. I used the following code to produce an ordered list of contract recipients according to obligations. I have typed out the top 10 below the code.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Simple approach to summarizing according to recipients
 # Note - I opted to remove entries with obligations of 0 or less (deobligations)
-vendors &amp;lt;- contracts18 %&amp;gt;%
-  group_by(recipient_name) %&amp;gt;%
-  summarise(fundsObligated = sum(fundsObligated)) %&amp;gt;%
-  filter(fundsObligated &amp;gt; 0) %&amp;gt;%
+vendors &amp;lt;- contracts18 %&amp;gt;% 
+  group_by(recipient_name) %&amp;gt;% 
+  summarise(fundsObligated = sum(fundsObligated)) %&amp;gt;% 
+  filter(fundsObligated &amp;gt; 0) %&amp;gt;% 
   arrange(desc(fundsObligated))&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;top-10-recipients-of-federal-contracts-in-fy-2018&#34; class=&#34;section level1&#34;&gt;
@@ -88,14 +88,14 @@ vendors &amp;lt;- contracts18 %&amp;gt;%
 &lt;h1&gt;Looking more into Lockheed Martin&lt;/h1&gt;
 &lt;p&gt;Now, I can vaguely tell that there’s a significant amount of defense and health related spending involved, but I want to know specifics. To get a better sense of what this money is being spent on, I’m going to pick on Lockheed Martin because they are at the top of the list.&lt;/p&gt;
 &lt;p&gt;You can breakdown contract spending according to a variety of criteria. Personally, my first question is which agencies are paying Lockheed Martin? See below the code for a summary.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Filtering to look at just LOCKHEED MARTIN CORPORATION
-lockheed &amp;lt;- contracts18 %&amp;gt;%
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Filtering to look at just LOCKHEED MARTIN CORPORATION 
+lockheed &amp;lt;- contracts18 %&amp;gt;% 
   filter(recipient_name == &amp;quot;LOCKHEED MARTIN CORPORATION&amp;quot;)
 # Summarizing by funding agencies
-agencies &amp;lt;- lockheed %&amp;gt;%
-  group_by(awarding_agency_name) %&amp;gt;%
-  summarise(fundsObligated = sum(fundsObligated)) %&amp;gt;%
-  filter(fundsObligated &amp;gt; 0) %&amp;gt;%
+agencies &amp;lt;- lockheed %&amp;gt;% 
+  group_by(awarding_agency_name) %&amp;gt;% 
+  summarise(fundsObligated = sum(fundsObligated)) %&amp;gt;% 
+  filter(fundsObligated &amp;gt; 0) %&amp;gt;% 
   arrange(desc(fundsObligated))&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;agencies-contracts-to-lockheed-martin-in-fy-2018&#34; class=&#34;section level1&#34;&gt;
@@ -114,16 +114,16 @@ agencies &amp;lt;- lockheed %&amp;gt;%
 &lt;h1&gt;One of These is not like the others!&lt;/h1&gt;
 &lt;p&gt;Seriously, Social Security paid almost $2 million to Lockheed Martin? WHY? I’m not always up on the latest news, but I don’t remember Social Security having any aerospace needs.&lt;/p&gt;
 &lt;p&gt;To get this answer, we can look at the North American Industry Categorization System (NAICS) codes and Product or Service Codes (PSCs). The script below isolates the codes in question. When you do that, though, you can see that the associated NAICS code is “Other computer related services” and the associated PSC is “IT and Telecom - Other IT and Telecommunications”. Neither of these descriptors are particularly…enlightening.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ssa &amp;lt;- lockheed %&amp;gt;%
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ssa &amp;lt;- lockheed %&amp;gt;% 
   filter(awarding_agency_name == &amp;quot;SOCIAL SECURITY ADMINISTRATION (SSA)&amp;quot;)
 # NAICs
-ssa %&amp;gt;%
-  group_by(naics_description) %&amp;gt;%
+ssa %&amp;gt;% 
+  group_by(naics_description) %&amp;gt;% 
   summarise(fundsObligated = sum(fundsObligated))
 # PSCs
-ssa %&amp;gt;%
-  group_by(product_or_service_code_description) %&amp;gt;%
-  summarise(fundsObligated = sum(fundsObligated)) %&amp;gt;%
+ssa %&amp;gt;% 
+  group_by(product_or_service_code_description) %&amp;gt;% 
+  summarise(fundsObligated = sum(fundsObligated)) %&amp;gt;% 
   arrange(desc(fundsObligated))&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;digging-deeper&#34; class=&#34;section level1&#34;&gt;
@@ -147,6 +147,6 @@ ssa %&amp;gt;%
 &lt;/div&gt;
 </description>
     </item>
-
+    
   </channel>
 </rss>
