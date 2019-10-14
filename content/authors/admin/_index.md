@@ -1,48 +1,40 @@
 ---
 authors:
 - admin
-bio: My research interests include distributed robotics, mobile computing and programmable
-  matter.
+bio: I help lead a data analytics team within the US Treasury. All views presented on this site are mine alone.
 education:
   courses:
-  - course: PhD in Artificial Intelligence
-    institution: Stanford University
+  - course: PhD in Cognitive Psychology
+    institution: Emory Univeristy
+    year: 2017
+  - course: MA in Cognitive Psychology
+    institution: Emory University
+    year: 2014
+  - course: BSc in Psychology (with additional major in Religion)
+    institution: Furman University
     year: 2012
-  - course: MEng in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2009
-  - course: BSc in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2008
 email: ""
-interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
-name: Nelson Bighetti
+name: Sam Hunley
 organizations:
-- name: Stanford University
+- name: Bureau of the Fiscal Service, US Treasury
   url: ""
-role: Professor of Artificial Intelligence
+role: Product Owner, Research and Analytics Team
 social:
 - icon: envelope
   icon_pack: fas
   link: '#contact'
 - icon: twitter
   icon_pack: fab
-  link: https://twitter.com/GeorgeCushen
-- icon: google-scholar
-  icon_pack: ai
-  link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
+  link: https://twitter.com/shunley42
 - icon: github
   icon_pack: fab
-  link: https://github.com/gcushen
+  link: https://github.com/shunley42
 superuser: true
 user_groups:
 - Researchers
 - Visitors
 ---
 
-Nelson Bighetti is a professor of artificial intelligence at the Stanford AI Lab. His research interests include distributed robotics, mobile computing and programmable matter. He leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
+Sam Hunley (he/him) is the Product Owner of the Research & Analytics team at the Bureau of the Fiscal service. In this role, he is focused on developing analyses and tools to improve the functioning of the Fiscal Service and the government as a whole. His goal is to help clients (i.e., other government offices) efficiently and effectively achieve their mission through providing data-based tools or analyses.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate. 
+Prior to becoming a civil servant, Sam earned his PhD in Cognitive Psychology at Emory University. In his spare time, Sam likes to bake, roast coffee, and spend time with his partner and their pups. Sam identifies as bisexual/queer.

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R | Thoughts from Shunley</title>
+    <link>/tags/r/</link>
+      <atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
+    <description>R</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 14 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/img/icon-192.png</url>
+      <title>R</title>
+      <link>/tags/r/</link>
+    </image>
+    
+    <item>
+      <title>Top Recipients of US Federal Contracts in FY 2018</title>
+      <link>/post/top-recipients-of-us-federal-contracts-in-fy-2018/</link>
+      <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>/post/top-recipients-of-us-federal-contracts-in-fy-2018/</guid>
+      <description>
+
+
+&lt;div id=&#34;making-sense-of-usaspending-contracts-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Making Sense of USASpending Contracts Data&lt;/h1&gt;
+&lt;p&gt;The contract data from &lt;a href=&#34;https://www.USASpending.gov&#34;&gt;&lt;strong&gt;USASpending&lt;/strong&gt;&lt;/a&gt; can be overwhelming to parse through. Each year contains millions of rows and hundreds of columns of data, making it difficult for anyone to dive into at first. To make it a bit easier, I wanted to run through a simple analysis I conducted using contracts data from FY18.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-couple-notes&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;A Couple Notes&lt;/h1&gt;
+&lt;p&gt;The first question that might come to mind is - why am I looking at FY 2018 data when we just kicked off FY 2020 (October 1, 2019)? Aren’t the data a bit dated? My decision was based on the fact that I wanted a &lt;strong&gt;complete&lt;/strong&gt; year of data. FY 2019 has ended, but it’s not completely in the books (i.e., folks are still logging changes), so I will hold off on using that data for a few more weeks.&lt;/p&gt;
+&lt;p&gt;Throughout this post, I will be referring exclusively to Federal “obligations”, which is a strange term for those who aren’t familiar with Federal finances. In short, an obligation is a binding agreement in which the Federal government has agreed to pay money, which is close enough to actual spending for my purposes. If you want a more (perhaps overly) detailed explanation, you can check out this post &lt;a href=&#34;https://fedspendingtransparency.github.io/whitepapers/obligation/&#34;&gt;&lt;strong&gt;here&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;loading-the-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Loading the Data&lt;/h1&gt;
+&lt;p&gt;Before getting into the fun stuff, let’s load the data. For this analysis, everything you need can be found in the &lt;a href=&#34;https://www.usaspending.gov/#/download_center/award_data_archive&#34;&gt;&lt;strong&gt;USASpending Award Archives&lt;/strong&gt;&lt;/a&gt;. Just select “Contracts” and “2018”, and a zip file will download. As a heads-up, the contract archives for each year are fairly large. The zip file weighs in at 918 MB, and once unzipped, the CSVs total up to around 10 GB or so. I was able to run all of the code below using a 2017 MacBook with 8 GB of RAM, but it took a minute and crashed out a couple times.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(vroom)
+# Create Working Directory Short Cuts
+local_dir &amp;lt;- &amp;quot;/Users/samhunley/Desktop/2018_all_Contracts_Full_20191009&amp;quot; # Your folder location here
+setwd(local_dir)
+# Loading that data
+# vroom can load multiple CSVs at once. The variable &amp;quot;files&amp;quot; stores the file names to do this.
+files &amp;lt;- fs::dir_ls(glob = &amp;quot;2018_all_Contracts_Full_20191010_*csv&amp;quot;)
+contracts18 &amp;lt;- vroom(files, delim = &amp;quot;,&amp;quot;, col_select = c(award_id_piid, award_description, 
+                                                        product_or_service_code_description, action_date, 
+                                                        naics_description, awarding_agency_name, 
+                                                        awarding_sub_agency_name, recipient_name, 
+                                                        recipient_country_name, recipient_state_name, 
+                                                        recipient_city_name, 
+                                                        federal_action_obligation))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;compressing-and-formatting-the-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Compressing and Formatting the data&lt;/h1&gt;
+&lt;p&gt;Given the large files involved, I recommend compressing the data into a smaller format by summarizing down to only the information we care about.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Compressing the data by summarizing
+contracts18 &amp;lt;- contracts18 %&amp;gt;% 
+  group_by(recipient_name, product_or_service_code_description, naics_description, awarding_agency_name, 
+           awarding_sub_agency_name) %&amp;gt;% 
+  summarise(fundsObligated = sum(federal_action_obligation))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;beginning-the-analysis&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Beginning the Analysis&lt;/h1&gt;
+&lt;p&gt;I wanted to see the top recipients of contract funding in FY 2018. So the first thing I did was summarize funds obligated according to recipient names. I used the following code to produce an ordered list of contract recipients according to obligations. I have typed out the top 10 below the code.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Simple approach to summarizing according to recipients
+# Note - I opted to remove entries with obligations of 0 or less (deobligations)
+vendors &amp;lt;- contracts18 %&amp;gt;% 
+  group_by(recipient_name) %&amp;gt;% 
+  summarise(fundsObligated = sum(fundsObligated)) %&amp;gt;% 
+  filter(fundsObligated &amp;gt; 0) %&amp;gt;% 
+  arrange(desc(fundsObligated))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;top-10-recipients-of-federal-contracts-in-fy-2018&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Top 10 Recipients of Federal Contracts in FY 2018&lt;/h1&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;strong&gt;Lockheed Martin&lt;/strong&gt;: $36.7B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Boeing*&lt;/strong&gt;: $28.0B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Raytheon&lt;/strong&gt;: $17.0B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Northrop Grumman&lt;/strong&gt;: $9.5B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;McKesson&lt;/strong&gt;: $8.9B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Huntington Ingalls Industries&lt;/strong&gt;: $7.0B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;GD Electric Boat&lt;/strong&gt;: $5.7B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;United Technologies&lt;/strong&gt;: $5.4B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Booz Allen Hamilton&lt;/strong&gt;: $4.1B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Humana&lt;/strong&gt;: $4.1B&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;* &lt;em&gt;A note on Boeing: When you run the code yourself, you will see that Boeing is actually listed twice, once under “The Boeing Company” and again as “Boeing Company, The”. This is a common issue in the contracts data. I’ve adjusted for it in the Top 10 above&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;looking-more-into-lockheed-martin&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Looking more into Lockheed Martin&lt;/h1&gt;
+&lt;p&gt;Now, I can vaguely tell that there’s a significant amount of defense and health related spending involved, but I want to know specifics. To get a better sense of what this money is being spent on, I’m going to pick on Lockheed Martin because they are at the top of the list.&lt;/p&gt;
+&lt;p&gt;You can breakdown contract spending according to a variety of criteria. Personally, my first question is which agencies are paying Lockheed Martin? See below the code for a summary.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Filtering to look at just LOCKHEED MARTIN CORPORATION 
+lockheed &amp;lt;- contracts18 %&amp;gt;% 
+  filter(recipient_name == &amp;quot;LOCKHEED MARTIN CORPORATION&amp;quot;)
+# Summarizing by funding agencies
+agencies &amp;lt;- lockheed %&amp;gt;% 
+  group_by(awarding_agency_name) %&amp;gt;% 
+  summarise(fundsObligated = sum(fundsObligated)) %&amp;gt;% 
+  filter(fundsObligated &amp;gt; 0) %&amp;gt;% 
+  arrange(desc(fundsObligated))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;agencies-contracts-to-lockheed-martin-in-fy-2018&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Agencies Contracts to Lockheed Martin in FY 2018&lt;/h1&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;strong&gt;Department of Defense&lt;/strong&gt;: $35,219,980,889&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;NASA&lt;/strong&gt;: $1,268,964,214&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Department of Transportation&lt;/strong&gt;: $111,747,754&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;General Services Administration&lt;/strong&gt;: $69,696,297&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Homeland Security&lt;/strong&gt;: $40,203,136&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Social Security&lt;/strong&gt;: $1,924,246&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The Justice Department&lt;/strong&gt;: $308,650&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div id=&#34;one-of-these-is-not-like-the-others&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;One of These is not like the others!&lt;/h1&gt;
+&lt;p&gt;Seriously, Social Security paid almost $2 million to Lockheed Martin? WHY? I’m not always up on the latest news, but I don’t remember Social Security having any aerospace needs.&lt;/p&gt;
+&lt;p&gt;To get this answer, we can look at the North American Industry Categorization System (NAICS) codes and Product or Service Codes (PSCs). The script below isolates the codes in question. When you do that, though, you can see that the associated NAICS code is “Other computer related services” and the associated PSC is “IT and Telecom - Other IT and Telecommunications”. Neither of these descriptors are particularly…enlightening.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ssa &amp;lt;- lockheed %&amp;gt;% 
+  filter(awarding_agency_name == &amp;quot;SOCIAL SECURITY ADMINISTRATION (SSA)&amp;quot;)
+# NAICs
+ssa %&amp;gt;% 
+  group_by(naics_description) %&amp;gt;% 
+  summarise(fundsObligated = sum(fundsObligated))
+# PSCs
+ssa %&amp;gt;% 
+  group_by(product_or_service_code_description) %&amp;gt;% 
+  summarise(fundsObligated = sum(fundsObligated)) %&amp;gt;% 
+  arrange(desc(fundsObligated))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;digging-deeper&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Digging Deeper&lt;/h1&gt;
+&lt;p&gt;To get more details, one would have to track down the specific contract(s) associated with this spending. This requires reloading the big dataset and then searching for SSA and Lockheed Martin. After doing this, I found 2 entries and 1 unique award associated with Social Security and Lockheed Martin, labelled with the ID # 28321318FDS030006.&lt;/p&gt;
+&lt;p&gt;Using USAspending’s Advanced Search, I looked for this award, and I found… a &lt;a href=&#34;https://www.usaspending.gov/#/award/6385598&#34;&gt;&lt;strong&gt;contract&lt;/strong&gt;&lt;/a&gt; to Leidos Innovations?? The plot thickens!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-might-be-happening-here&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;What might be happening here?&lt;/h1&gt;
+&lt;p&gt;Searching for the contract on &lt;a href=&#34;https://www.FPDS.gov&#34;&gt;&lt;strong&gt;FPDS.gov&lt;/strong&gt;&lt;/a&gt; (where USAspending gets its contract data), I found 3 entries for this contract, 2 actions going to Lockheed Martin and 1 going to Leidos. Based on my knowledge, I would say that there are a 3 possibilities for what’s going on here.&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;Perhaps the award was given to &lt;em&gt;both&lt;/em&gt; Lockheed Martin and Leidos.&lt;/li&gt;
+&lt;li&gt;Maybe the award was initially given to LockheedMartin, but then later transferred to Leidos for unknown reasons.
+&lt;strong&gt;Or&lt;/strong&gt; - my favorite possibility -&lt;/li&gt;
+&lt;li&gt;This is all the result of a typo! Lockheed Martin never received this award, and it was intended for Leidos from the get-go.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div id=&#34;it-remains-a-mystery-for-now&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;It Remains a Mystery for Now!&lt;/h1&gt;
+&lt;p&gt;As much as I would love to solve this mystery, my trail has run cold at this point. So I am calling it quits. However, this is an example of the sort of information you can dig into using USASpending data.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
