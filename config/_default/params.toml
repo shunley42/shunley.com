@@ -48,7 +48,7 @@ description = ""
 
 # Display a logo in navigation bar rather than title (optional).
 #   To enable, place an image in `static/img/` and reference its filename below. To disable, set the value to "".
-logo = ""
+logo = "static/img/icon-512.png"
 
 ############################
 ## Site Features
@@ -121,7 +121,7 @@ contact_links = [
 ############################
 
 # Default image for social sharing and search engines. Place image in `static/img/` folder and specify image name here.
-sharing_image = ""
+sharing_image = "static/img/icon-512.png"
 
 # Twitter username (without @). Used when a visitor shares your site on Twitter.
 twitter = "shunley42"
@@ -185,9 +185,9 @@ plugins_js  = []
   #   2: Compact
   #   3: Card
   #   4: Citation (publications only)
-  post_view = 2
-  publication_view = 2
-  talk_view = 2
+  post_view = 3
+  publication_view = 3
+  talk_view = 3
 
 ############################
 ## Comments
