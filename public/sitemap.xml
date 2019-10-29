@@ -3,21 +3,6 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/courses/example/example1/</loc>
-    <lastmod>2019-05-05T00:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/courses/example/</loc>
-    <lastmod>2018-09-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/courses/example/example2/</loc>
-    <lastmod>2019-05-05T00:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/talk/example/</loc>
     <lastmod>2030-06-01T13:00:00+00:00</lastmod>
   </url>
@@ -33,52 +18,57 @@
   </url>
   
   <url>
-    <loc>/tags/analysis/</loc>
-    <lastmod>2019-10-14T00:00:00+00:00</lastmod>
+    <loc>/categories/analysis/</loc>
+    <lastmod>2019-10-29T12:35:02-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/categories/analysis/</loc>
-    <lastmod>2019-10-14T00:00:00+00:00</lastmod>
+    <loc>/tags/analysis/</loc>
+    <lastmod>2019-10-29T12:35:02-04:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2019-10-14T00:00:00+00:00</lastmod>
+    <lastmod>2019-10-29T12:35:02-04:00</lastmod>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-10-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2019-10-14T00:00:00+00:00</lastmod>
+    <lastmod>2019-10-29T12:35:02-04:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2019-10-14T00:00:00+00:00</lastmod>
+    <lastmod>2019-10-29T12:35:02-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2019-10-29T12:35:02-04:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2019-10-14T00:00:00+00:00</lastmod>
+    <lastmod>2019-10-29T12:35:02-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/top-recipients-of-us-federal-contracts-in-fy-2018/</loc>
-    <lastmod>2019-10-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/usaspending/</loc>
-    <lastmod>2019-10-14T00:00:00+00:00</lastmod>
+    <loc>/post/us-federal-awards-and-coffee/</loc>
+    <lastmod>2019-10-29T12:35:02-04:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/usaspending/</loc>
+    <lastmod>2019-10-29T12:35:02-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/usaspending/</loc>
+    <lastmod>2019-10-29T12:35:02-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/top-recipients-of-us-federal-contracts-in-fy-2018/</loc>
     <lastmod>2019-10-14T00:00:00+00:00</lastmod>
   </url>
   

@@ -1,0 +1,368 @@
+---
+title: "US Federal Awards and Coffee"
+author: "Sam Hunley"
+date: '2019-10-29'
+categories:
+- Analysis
+- R
+- USAspending
+featured: no
+lastmod: '2019-10-29T12:35:02-04:00'
+projects: []
+slug: us-federal-awards-and-coffee
+subtitle: Looking at FY2019 Award Data
+summary: ''
+tags:
+- Analysis
+- R
+- USAspending
+authors: []
+---
+
+
+
+<p><img src="/post/2019-10-23-what-does-the-us-federal-government-spend-on-coffee_files/coffee.png" /></p>
+<p>Y’all. I love coffee. If you have spent any time around me, you have probably seen me drink at least a cup or two. Consequently, I was interested in seeing how much the US Federal government spends on this magical bean.</p>
+<p>The public has two options to see how much money the Federal government spends on coffee. Option 1 would be to call up a bunch of agencies (likely with FOIA in hand) and ask them (preferably nicely since you just FOIA’d them) to do the math for you.</p>
+<p>Option 2 would be to get a rough estimate using Federal award data from <a href="https://www.usaspending.gov/#/"><strong>USASpending.gov</strong></a>. Since I’m not in the mood to anger hordes of my fellow civil servants, what I’m going to do is look at Federal awards (i.e., contracts and financial assistance such as grants) that include the word “coffee” in the description. This approach without a doubt includes some spending where coffee wasn’t involved (e.g., a contract that bought coffee in addition to dinner for a banquet) and misses coffee purchases that simply weren’t labeled in the data. But it should make for a fun afternoon nonetheless!</p>
+<p>For the data nerds, you can find my code at the end of the post.</p>
+<div id="financial-assistance-or-contracts" class="section level2">
+<h2>Financial Assistance or Contracts?</h2>
+<p>Analyzing financial assistance and contracts data at the same time can be a headache. So, I thought, why not eliminate whichever looks the most boring?</p>
+<p><img src="/post/2019-10-23-what-does-the-us-federal-government-spend-on-coffee_files/awardTypeTable.png" /></p>
+<p>In the table, you can see that contracts accounted for about $4.6 million more than financial assistance in FY 2019. Moreover, there are over 1,900 unique contracts that included the word “coffee”, whereas there’s only 25 financial assistance awards. So, while I’m sure the financial assistance data are interesting in their own way, I’m going to focus on contracts for this analysis.</p>
+<p>As a quick note, I relied VERY heavily on Laura Ellis’ <a href="https://www.littlemissdata.com/blog/prettytables"><strong>blog post</strong></a> on the formattable package to make my tables. If you’ve read her post, my style will look super familiar.</p>
+</div>
+<div id="contracts-whos-doing-the-awarding" class="section level2">
+<h2>Contracts: Who’s Doing the Awarding?</h2>
+<p>Now that I’ve decided to focus on contracts, the next question is, which agency awarded the most contracts? Time for another table.</p>
+<p><img src="/post/2019-10-23-what-does-the-us-federal-government-spend-on-coffee_files/coffeeContracts.png" /></p>
+<p>It looks like the Department of Defense issued the most awards for coffee. In fact, 91.6% of all contract obligations with the word “coffee” in the award description are coming from the DoD. Honestly, that makes sense to me. Not only is the DoD one of the largest agencies in terms of employees, it also includes the most employees who are in dire need of caffeination on a regular basis (i.e., folks in the armed forces).</p>
+<p>When you look at the awarding subagencies on the coffee contracts, 91% are being handled by the DoD’s Defense Logistics Agency (DLA). This finding fits with what I know from experience about DLA. DLA is the subagency responsible for ensuring that military bases have the foodstuffs they need to function. They are so good at their job, that they have even partnered with the USDA on the <a href="https://www.fns.usda.gov/usda-foods/usda-dod-fresh-fruit-and-vegetable-program"><strong>USDA DoD Fresh program</strong></a> to deliver fresh fruits and vegetables to participating US schools.</p>
+</div>
+<div id="where-are-these-contracts-going" class="section level2">
+<h2>Where are These Contracts Going?</h2>
+<p>We now know that DoD had the most contracts that mention coffee in FY 2019, and we know that most of these contracts were handled by DLA. The next step is to figure out where this money is being spent. Looking at the recipient country label, it looks like 87% is going to the US, so let’s focus on that. At this point, I’m itching to make a visualization, and I’m thinking that this is a great opportunity for a choropleth (AKA a heatmap).</p>
+<p><img src="/post/2019-10-23-what-does-the-us-federal-government-spend-on-coffee_files/coffeeDLAStates.png" /></p>
+<p>You can right-click on the image and select “View Image” to see it in a bigger size. This visualization reveals that most of coffee related awards are being obligated to recipients in California, which makes sense given that it’s the most populous State and has multiple large military bases. Virginia comes in 2nd, followed by Florida, and then, finally, Washington State.</p>
+</div>
+<div id="in-summary" class="section level2">
+<h2>In Summary…</h2>
+<p>All told, the US Federal government issued close to $19 million in awards that included the word “coffee” in the description. Of these awards, $11.7 million (62.2%) were contracts, and $10.7 million (91.6%) of these contracts were issued by the Department of Defense. DLA issued the vast majority of these contracts, awarding the funds to recipients both locally as well as globally. Within the US, the majority of these awards were issued to recipients in California.</p>
+<p>And there you have it! That’s as far as I’m going to take this analysis. If you want to see the code I used, it’s included below.</p>
+</div>
+<div id="getting-the-data" class="section level2">
+<h2>Getting the Data</h2>
+<p>The data I used for this analysis can be accessed through <strong>USASpending.gov</strong> and can be found in the <a href="https://www.usaspending.gov/#/download_center/award_data_archive"><strong>Awards Archive</strong></a>. You will want to download both the contracts and financial assistance data for 2019, and you can ignore the “delta” files. You will end up with 2 fairly large zip files, which, once unzipped, weigh in at around 15 GB. It’s a lot of data, but I found some work arounds that made it fairly easy to process on a 2017 MacBook with only 8 GB of RAM.</p>
+</div>
+<div id="processing-the-data" class="section level2">
+<h2>Processing the Data</h2>
+<p>The real heavy lifting here comes in whittling the data down to a manageable size. I ended up opting to process one CSV at a time to prevent my computer from crashing, and then I ran it all through for loops because I’m lazy. You can load the data using any package you like, but I would like to plug <a href="https://www.tidyverse.org/articles/2019/05/vroom-1-0-0/"><strong>vroom</strong></a>. It’s crazy fast at processing large data files.</p>
+<pre class="r"><code>######
+#
+#
+# Analyzing FY19 Federal Award (contracts &amp; financial assistance) for &quot;coffee&quot; spending
+# All data from USAspending.gov
+# Code written by Sam Hunley (@shunley42)
+# www.shunley.com
+# 10/26/19
+#
+#
+#####
+
+
+
+#####
+# Loading Packages and Setting Directories
+#####
+library(tidyverse)
+library(vroom)
+library(openxlsx)
+library(formattable)
+library(scales)
+library(viridis)
+
+# Create Working Directory Short Cuts
+local_dir &lt;- &quot;/Users/samhunley/Desktop&quot;
+setwd(local_dir)
+
+
+#####
+# Loading CONTRACT award data
+# Looping it so that I don&#39;t fry my Macbook
+# The data are the 2019 contracts archive from
+# https://www.usaspending.gov/#/download_center/award_data_archive
+#####
+
+num_files = length(list.files(path = &quot;2019_all_Contracts_Full_20191009&quot;))
+for (j in 1:num_files){
+  if (j == 1){
+    address = paste(&quot;2019_all_Contracts_Full_20191009/&quot;,
+                    &quot;2019_all_Contracts_Full_20191010&quot;, &quot;_&quot;, 1 ,&quot;.csv&quot;, sep = &quot;&quot;)
+    contractsA &lt;- vroom(address, delim = &quot;,&quot;, col_select = c(award_id_piid, award_description,
+                                                         product_or_service_code,
+                                                         product_or_service_code_description, action_date,
+                                                         naics_description, awarding_agency_name,
+                                                         awarding_sub_agency_name, recipient_name,
+                                                         recipient_country_name, recipient_state_name,
+                                                         recipient_city_name, federal_action_obligation))
+    contractsA$award_description &lt;- gsub(&#39;\&quot;|\\&#39;, &quot;&quot;, contractsA$award_description, fixed = TRUE)
+    contractsA &lt;- filter(contractsA, str_detect(str_to_lower(award_description), &quot;coffee&quot;))
+    print(paste(&quot;File Completed: &quot;, j))
+  } else{
+    address = paste(&quot;2019_all_Contracts_Full_20191009/&quot;,
+                    &quot;2019_all_Contracts_Full_20191010&quot;, &quot;_&quot;, j ,&quot;.csv&quot;, sep = &quot;&quot;)
+    contractsB &lt;- vroom(address, delim = &quot;,&quot;, col_select = c(award_id_piid, award_description,
+                                                            product_or_service_code,
+                                                            product_or_service_code_description, action_date,
+                                                            naics_description, awarding_agency_name,
+                                                            awarding_sub_agency_name, recipient_name,
+                                                            recipient_country_name, recipient_state_name,
+                                                            recipient_city_name, federal_action_obligation))
+    contractsB$award_description &lt;- gsub(&#39;\&quot;|\\&#39;, &quot;&quot;, contractsB$award_description, fixed = TRUE)
+    contractsB &lt;- filter(contractsB, str_detect(str_to_lower(award_description), &quot;coffee&quot;))
+    contractsA &lt;- rbind(contractsA, contractsB)
+    print(paste(&quot;File Completed: &quot;, j))
+  }
+}
+
+
+saveRDS(contractsA, &quot;coffeeContracts.RData&quot;)
+
+
+#####
+# Loading FINANCIAL ASSISTANCE award data
+# Looping it so that I don&#39;t fry my Macbook
+# The data are the 2019 contracts archive from
+# https://www.usaspending.gov/#/download_center/award_data_archive
+#####
+
+num_files = length(list.files(path = &quot;2019_all_Assistance_Full_20191009&quot;))
+for (j in 1:num_files){
+  if (j == 1){
+    address = paste(&quot;2019_all_Assistance_Full_20191009/&quot;,
+                    &quot;2019_all_Assistance_Full_20191010&quot;, &quot;_&quot;, 1 ,&quot;.csv&quot;, sep = &quot;&quot;)
+    financialA &lt;- vroom(address, delim = &quot;,&quot;, col_select = c(award_id_fain, award_id_uri, award_description,
+                                                             cfda_title, action_date, awarding_agency_name,
+                                                             awarding_sub_agency_name, recipient_name,
+                                                             recipient_country_name, recipient_state_name,
+                                                             recipient_city_name, federal_action_obligation))
+    financialA$award_description &lt;- gsub(&#39;\&quot;|\\&#39;, &quot;&quot;, financialA$award_description, fixed = TRUE)
+    financialA &lt;- filter(financialA, str_detect(str_to_lower(award_description), &quot;coffee&quot;))
+    print(paste(&quot;File Completed: &quot;, j))
+  } else{
+    address = paste(&quot;2019_all_Assistance_Full_20191009/&quot;,
+                    &quot;2019_all_Assistance_Full_20191010&quot;, &quot;_&quot;, j ,&quot;.csv&quot;, sep = &quot;&quot;)
+    financialB &lt;- vroom(address, delim = &quot;,&quot;, col_select = c(award_id_fain, award_id_uri, award_description,
+                                                             cfda_title, action_date, awarding_agency_name,
+                                                             awarding_sub_agency_name, recipient_name,
+                                                             recipient_country_name, recipient_state_name,
+                                                             recipient_city_name, federal_action_obligation))
+    financialB$award_description &lt;- gsub(&#39;\&quot;|\\&#39;, &quot;&quot;, financialB$award_description, fixed = TRUE)
+    financialB &lt;- filter(financialB, str_detect(str_to_lower(award_description), &quot;coffee&quot;))
+    financialA &lt;- rbind(financialA, financialB)
+    print(paste(&quot;File Completed: &quot;, j))
+  }
+}
+
+
+
+#####
+# Beginning the Analysis
+# Looking at what&#39;s in the contracts and financial assistance data sets
+# Basically, picking a direction for further analyses
+#####
+
+# Total Contract Spend/Number of Awards
+# Note: I first eyeballed these to ensure they were actually about coffee - they are
+
+contractTot &lt;- contractsA %&gt;%
+  summarise(totalObligations = sum(federal_action_obligation),
+            numAwards = n_distinct(award_id_piid)) # $11.7 million
+contractTot$fundType &lt;- &quot;Contracts&quot;
+
+# Total Financial Assistance Spend/Number of Awards
+# First looking at assistance programs (called CFDAs) to see if they match up
+# CFDA Analysis
+financialA %&gt;%
+  group_by(cfda_title) %&gt;%
+  summarize(totalObligations = sum(federal_action_obligation)) %&gt;%
+  arrange(desc(totalObligations))
+
+# clearly some noise here, but I need more information
+# just going to download to a Excel file
+
+write.xlsx(financialA, &quot;coffeefinancial.xlsx&quot;)
+
+# ALRIGHT, found the CFDAs that I&#39;m not interested in
+financialC &lt;- financialA %&gt;%
+  filter(cfda_title != &quot;ALLERGY AND INFECTIOUS DISEASES RESEARCH&quot;, cfda_title != &quot;BASIC CENTER GRANT&quot;,
+         cfda_title != &quot;DRUG-FREE COMMUNITIES SUPPORT PROGRAM financial&quot;,
+         cfda_title != &quot;FOSTER GRANDPARENT PROGRAM&quot;, cfda_title != &quot;HIGHWAY PLANNING AND CONSTRUCTION&quot;,
+         cfda_title != &quot;PUBLIC DIPLOMACY PROGRAMS&quot;, cfda_title != &quot;RETIRED AND SENIOR VOLUNTEER PROGRAM&quot;,
+         cfda_title != &quot;SCIENCE&quot;, cfda_title != &quot;SUBSTANCE ABUSE AND MENTAL HEALTH SERVICES
+         PROJECTS OF REGIONAL AND NATIONAL SIGNIFICANCE&quot;, cfda_title != &quot;TRIO UPWARD BOUND&quot;,
+         cfda_title != &quot;VOLUNTEERS IN SERVICE TO AMERICA&quot;)
+
+# Saving the version with just CFDAs of interest
+saveRDS(financialC, &quot;coffeeGrants.RData&quot;)
+
+# NOW, actually calculating totals for Financial Assistance
+financialTot &lt;- financialC %&gt;%
+  summarise(totalObligations = sum(federal_action_obligation),
+            numAwards = n_distinct(award_id_fain)) # $7.1 million
+financialTot$fundType &lt;- &quot;Financial Assistance&quot;
+
+# Binding contracts and financial assistance to see how they compare
+tots &lt;- bind_rows(financialTot, contractTot)
+
+totsSum &lt;- tots %&gt;%
+  summarise(totalObligations = sum(totalObligations))
+
+tots &lt;- tots %&gt;%
+  group_by(fundType, totalObligations, numAwards) %&gt;%
+  summarize(&quot;PercentFunding&quot; = totalObligations/totsSum$totalObligations)
+
+# Formatting data for a table
+tots$totalObligations &lt;- dollar(tots$totalObligations)
+tots$PercentFunding &lt;- percent(tots$PercentFunding)
+tots$numAwards &lt;- comma(tots$numAwards)
+
+# Cleaning the variable names
+tots &lt;- tots %&gt;%
+  rename(&#39;Award Type&#39; = fundType, &#39;Total Obligations&#39; = totalObligations, &#39;Number of Awards&#39; = numAwards,
+         &#39;Percent of FY19 Funding&#39; = PercentFunding)
+
+# attempting a pretty table
+# NOTE: code entirely ripped off from: https://www.littlemissdata.com/blog/prettytables
+formattable(tots,
+            align =c(&quot;l&quot;,&quot;c&quot;,&quot;c&quot;, &quot;c&quot;),
+            list(`Award Type` = formatter(
+              &quot;span&quot;, style = ~ style(color = &quot;grey&quot;, font.weight = &quot;bold&quot;))
+            ))
+
+# This table makes contracts look more interesting to me, so focussing on that
+
+
+#####
+# Further Analyses of Coffee Contracts
+# Basically, what&#39;s going on here?
+#####
+
+# Analysis by Agency
+contractsA %&gt;%
+  group_by(awarding_agency_name) %&gt;%
+  summarise(totalObligations = sum(federal_action_obligation)) %&gt;%
+  arrange(desc(totalObligations)) # Almost ALL of this is DoD (&gt;90%)
+
+# Prepping for a Pretty Table
+cTable &lt;- contractsA %&gt;%
+  group_by(awarding_agency_name) %&gt;%
+  summarise(totalObligations = sum(federal_action_obligation),
+            totalAwards = n_distinct(award_id_piid),
+            percentFunding = totalObligations/sum(contractsA$federal_action_obligation)) %&gt;%
+  filter(totalObligations &gt; 0) %&gt;%
+  arrange(desc(totalObligations))
+
+cTable$awarding_agency_name &lt;- str_to_title(gsub(&quot;\\s*\\([^\\)]+\\)&quot;,&quot;&quot;,
+                                                  as.character(cWaffle$awarding_agency_name)),
+                                                                 locale = &quot;en&quot;)
+cTable$totalObligations &lt;- dollar(cTable$totalObligations)
+cTable$totalAwards &lt;- comma(cTable$totalAwards)
+cTable$percentFunding &lt;- percent(cTable$percentFunding)
+
+cTable &lt;- cTable %&gt;%
+  rename(&#39;Total Obligations&#39; = totalObligations,
+         &#39;Number of Awards&#39; = totalAwards,
+         &quot;Percent of FY19 Contracts Funding&quot; = percentFunding,
+         &quot;Awarding Agency&quot; = awarding_agency_name)
+
+formattable(cTable,
+            align =c(&quot;l&quot;,&quot;c&quot;,&quot;c&quot;, &quot;c&quot;),
+            list(`Awarding Agency` = formatter(
+              &quot;span&quot;, style = ~ style(color = &quot;grey&quot;, font.weight = &quot;bold&quot;))
+            ))
+
+# Gonna focus on DoD
+contractsA %&gt;%
+  filter(awarding_agency_name == &quot;DEPARTMENT OF DEFENSE (DOD)&quot;) %&gt;%
+  group_by(awarding_sub_agency_name) %&gt;%
+  summarise(totalObligations = sum(federal_action_obligation)) %&gt;%
+  arrange(desc(totalObligations)) # DLA has, &gt;90% of these contracts. Makes sense.
+
+# Gonna focus on DLA: Where&#39;s the money going?
+# US vs Elsewhere
+contractsA %&gt;%
+  filter(awarding_agency_name == &quot;DEPARTMENT OF DEFENSE (DOD)&quot; &amp;
+           awarding_sub_agency_name == &quot;DEFENSE LOGISTICS AGENCY&quot;) %&gt;%
+  group_by(recipient_country_name) %&gt;%
+  summarise(totalObligations = sum(federal_action_obligation)) %&gt;%
+  arrange(desc(totalObligations)) # most going to the US
+
+# Digging deeper in the US spending
+usCoffee &lt;- contractsA %&gt;%
+  filter(awarding_agency_name == &quot;DEPARTMENT OF DEFENSE (DOD)&quot; &amp;
+           awarding_sub_agency_name == &quot;DEFENSE LOGISTICS AGENCY&quot; &amp;
+           recipient_country_name == &quot;UNITED STATES&quot;) %&gt;%
+  group_by(recipient_state_name) %&gt;%
+  summarise(totalObligations = sum(federal_action_obligation)) %&gt;%
+  arrange(desc(totalObligations))
+
+#####
+# Let&#39;s make a choropleth!
+# Admittedly, very little effort was put in here.
+# Not a fan of chloropleths, it turns out
+#####
+
+# checking that states look pretty
+unique(usCoffee$recipient_state_name)
+# removing Guam because it&#39;s not on my map
+usCoffee$recipient_state_name[usCoffee$recipient_state_name == &quot;GUAM&quot;] &lt;- NA
+
+coffeeStates &lt;- usCoffee %&gt;%
+  filter(!is.na(recipient_state_name)) %&gt;% #removes Guam
+  group_by(recipient_state_name) %&gt;%
+  summarise(totalObligations = sum(totalObligations)) %&gt;%
+  arrange(desc(totalObligations))
+
+# This is all being done to work with the package below to get state location data
+coffeeStates &lt;- coffeeStates %&gt;%
+  rename(state = recipient_state_name)
+coffeeStates$state &lt;- tolower(coffeeStates$state)
+
+stateList &lt;- urbnmapr::states #urban institutes state location data
+stateList$state_name &lt;- tolower(stateList$state_name)
+
+
+coffeeStatesFIN &lt;- left_join(stateList, coffeeStates, by = c(&quot;state_name&quot; = &quot;state&quot;))
+
+
+map &lt;- coffeeStatesFIN %&gt;%
+  ggplot(aes(long, lat, group = group, fill = totalObligations)) +
+  geom_polygon(color = &quot;grey10&quot;, size = 0.2) +
+  scale_fill_viridis(discrete = FALSE) +
+  labs(title = &quot;Where DLA &#39;Coffee&#39; Contracts are Going&quot;,
+       subtitle = &quot;Fiscal Year 2019&quot;,
+       caption = &quot;Created by @Shunley42; Source: USAspending.gov&quot;,
+       fill = &quot;Dollars Obligated&quot;) +
+  theme_void() +
+  theme(panel.background = element_rect(fill = NA, colour = &quot;#cccccc&quot;),
+        plot.title = element_text(size = 20,
+                                  hjust = 0.5,
+                                  family = &quot;Helvetica&quot;,
+                                  color = &quot;#000000&quot;),
+        plot.subtitle = element_text(size = 15,
+                                    hjust = 0.5,
+                                    family = &quot;Helvetica&quot;,
+                                    color = &quot;#000000&quot;),
+        plot.caption = element_text(size = 15,
+                                    hjust = 0.5,
+                                    family = &quot;Helvetica&quot;,
+                                    color = &quot;#000000&quot;),
+        legend.title = element_text(size = 10,
+                                    hjust = 0.5,
+                                    family = &quot;Helvetica&quot;,
+                                    color = &quot;#000000&quot;))
+
+map</code></pre>
+</div>

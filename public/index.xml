@@ -7,11 +7,806 @@
     <description>Thoughts from Shunley</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 01 Jun 2030 13:00:00 +0000</lastBuildDate>
     <image>
-      <url>/img/icon-192.png</url>
+      <url>/img/static/img/icon-512.png</url>
       <title>Thoughts from Shunley</title>
       <link>/</link>
     </image>
+    
+    <item>
+      <title>Example Talk</title>
+      <link>/talk/example/</link>
+      <pubDate>Sat, 01 Jun 2030 13:00:00 +0000</pubDate>
+      <guid>/talk/example/</guid>
+      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click on the &lt;strong&gt;Slides&lt;/strong&gt; button above to view the built-in slides feature.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Slides can be added in a few ways:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Create&lt;/strong&gt; slides using Academic&amp;rsquo;s &lt;a href=&#34;https://sourcethemes.com/academic/docs/managing-content/#create-slides&#34; target=&#34;_blank&#34;&gt;&lt;em&gt;Slides&lt;/em&gt;&lt;/a&gt; feature and link using &lt;code&gt;slides&lt;/code&gt; parameter in the front matter of the talk file&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Upload&lt;/strong&gt; an existing slide deck to &lt;code&gt;static/&lt;/code&gt; and link using &lt;code&gt;url_slides&lt;/code&gt; parameter in the front matter of the talk file&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Embed&lt;/strong&gt; your slides (e.g. Google Slides) or presentation video on this page using &lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;shortcodes&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Further talk details can easily be added to this page using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>US Federal Awards and Coffee</title>
+      <link>/post/us-federal-awards-and-coffee/</link>
+      <pubDate>Tue, 29 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>/post/us-federal-awards-and-coffee/</guid>
+      <description>
+
+
+&lt;p&gt;&lt;img src=&#34;/post/2019-10-23-what-does-the-us-federal-government-spend-on-coffee_files/coffee.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Y’all. I love coffee. If you have spent any time around me, you have probably seen me drink at least a cup or two. Consequently, I was interested in seeing how much the US Federal government spends on this magical bean.&lt;/p&gt;
+&lt;p&gt;The public has two options to see how much money the Federal government spends on coffee. Option 1 would be to call up a bunch of agencies (likely with FOIA in hand) and ask them (preferably nicely since you just FOIA’d them) to do the math for you.&lt;/p&gt;
+&lt;p&gt;Option 2 would be to get a rough estimate using Federal award data from &lt;a href=&#34;https://www.usaspending.gov/#/&#34;&gt;&lt;strong&gt;USASpending.gov&lt;/strong&gt;&lt;/a&gt;. Since I’m not in the mood to anger hordes of my fellow civil servants, what I’m going to do is look at Federal awards (i.e., contracts and financial assistance such as grants) that include the word “coffee” in the description. This approach without a doubt includes some spending where coffee wasn’t involved (e.g., a contract that bought coffee in addition to dinner for a banquet) and misses coffee purchases that simply weren’t labeled in the data. But it should make for a fun afternoon nonetheless!&lt;/p&gt;
+&lt;p&gt;For the data nerds, you can find my code at the end of the post.&lt;/p&gt;
+&lt;div id=&#34;financial-assistance-or-contracts&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Financial Assistance or Contracts?&lt;/h2&gt;
+&lt;p&gt;Analyzing financial assistance and contracts data at the same time can be a headache. So, I thought, why not eliminate whichever looks the most boring?&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-10-23-what-does-the-us-federal-government-spend-on-coffee_files/awardTypeTable.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;In the table, you can see that contracts accounted for about $4.6 million more than financial assistance in FY 2019. Moreover, there are over 1,900 unique contracts that included the word “coffee”, whereas there’s only 25 financial assistance awards. So, while I’m sure the financial assistance data are interesting in their own way, I’m going to focus on contracts for this analysis.&lt;/p&gt;
+&lt;p&gt;As a quick note, I relied VERY heavily on Laura Ellis’ &lt;a href=&#34;https://www.littlemissdata.com/blog/prettytables&#34;&gt;&lt;strong&gt;blog post&lt;/strong&gt;&lt;/a&gt; on the formattable package to make my tables. If you’ve read her post, my style will look super familiar.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;contracts-whos-doing-the-awarding&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Contracts: Who’s Doing the Awarding?&lt;/h2&gt;
+&lt;p&gt;Now that I’ve decided to focus on contracts, the next question is, which agency awarded the most contracts? Time for another table.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-10-23-what-does-the-us-federal-government-spend-on-coffee_files/coffeeContracts.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;It looks like the Department of Defense issued the most awards for coffee. In fact, 91.6% of all contract obligations with the word “coffee” in the award description are coming from the DoD. Honestly, that makes sense to me. Not only is the DoD one of the largest agencies in terms of employees, it also includes the most employees who are in dire need of caffeination on a regular basis (i.e., folks in the armed forces).&lt;/p&gt;
+&lt;p&gt;When you look at the awarding subagencies on the coffee contracts, 91% are being handled by the DoD’s Defense Logistics Agency (DLA). This finding fits with what I know from experience about DLA. DLA is the subagency responsible for ensuring that military bases have the foodstuffs they need to function. They are so good at their job, that they have even partnered with the USDA on the &lt;a href=&#34;https://www.fns.usda.gov/usda-foods/usda-dod-fresh-fruit-and-vegetable-program&#34;&gt;&lt;strong&gt;USDA DoD Fresh program&lt;/strong&gt;&lt;/a&gt; to deliver fresh fruits and vegetables to participating US schools.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;where-are-these-contracts-going&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Where are These Contracts Going?&lt;/h2&gt;
+&lt;p&gt;We now know that DoD had the most contracts that mention coffee in FY 2019, and we know that most of these contracts were handled by DLA. The next step is to figure out where this money is being spent. Looking at the recipient country label, it looks like 87% is going to the US, so let’s focus on that. At this point, I’m itching to make a visualization, and I’m thinking that this is a great opportunity for a choropleth (AKA a heatmap).&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-10-23-what-does-the-us-federal-government-spend-on-coffee_files/coffeeDLAStates.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;You can right-click on the image and select “View Image” to see it in a bigger size. This visualization reveals that most of coffee related awards are being obligated to recipients in California, which makes sense given that it’s the most populous State and has multiple large military bases. Virginia comes in 2nd, followed by Florida, and then, finally, Washington State.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;in-summary&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;In Summary…&lt;/h2&gt;
+&lt;p&gt;All told, the US Federal government issued close to $19 million in awards that included the word “coffee” in the description. Of these awards, $11.7 million (62.2%) were contracts, and $10.7 million (91.6%) of these contracts were issued by the Department of Defense. DLA issued the vast majority of these contracts, awarding the funds to recipients both locally as well as globally. Within the US, the majority of these awards were issued to recipients in California.&lt;/p&gt;
+&lt;p&gt;And there you have it! That’s as far as I’m going to take this analysis. If you want to see the code I used, it’s included below.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;getting-the-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Getting the Data&lt;/h2&gt;
+&lt;p&gt;The data I used for this analysis can be accessed through &lt;strong&gt;USASpending.gov&lt;/strong&gt; and can be found in the &lt;a href=&#34;https://www.usaspending.gov/#/download_center/award_data_archive&#34;&gt;&lt;strong&gt;Awards Archive&lt;/strong&gt;&lt;/a&gt;. You will want to download both the contracts and financial assistance data for 2019, and you can ignore the “delta” files. You will end up with 2 fairly large zip files, which, once unzipped, weigh in at around 15 GB. It’s a lot of data, but I found some work arounds that made it fairly easy to process on a 2017 MacBook with only 8 GB of RAM.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;processing-the-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Processing the Data&lt;/h2&gt;
+&lt;p&gt;The real heavy lifting here comes in whittling the data down to a manageable size. I ended up opting to process one CSV at a time to prevent my computer from crashing, and then I ran it all through for loops because I’m lazy. You can load the data using any package you like, but I would like to plug &lt;a href=&#34;https://www.tidyverse.org/articles/2019/05/vroom-1-0-0/&#34;&gt;&lt;strong&gt;vroom&lt;/strong&gt;&lt;/a&gt;. It’s crazy fast at processing large data files.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;######
+#
+#
+# Analyzing FY19 Federal Award (contracts &amp;amp; financial assistance) for &amp;quot;coffee&amp;quot; spending
+# All data from USAspending.gov
+# Code written by Sam Hunley (@shunley42)
+# www.shunley.com
+# 10/26/19
+#
+#
+#####
 
 
 
+#####
+# Loading Packages and Setting Directories
+#####
+library(tidyverse)
+library(vroom)
+library(openxlsx)
+library(formattable)
+library(scales)
+library(viridis)
+
+# Create Working Directory Short Cuts
+local_dir &amp;lt;- &amp;quot;/Users/samhunley/Desktop&amp;quot;
+setwd(local_dir)
+
+
+#####
+# Loading CONTRACT award data
+# Looping it so that I don&amp;#39;t fry my Macbook
+# The data are the 2019 contracts archive from
+# https://www.usaspending.gov/#/download_center/award_data_archive
+#####
+
+num_files = length(list.files(path = &amp;quot;2019_all_Contracts_Full_20191009&amp;quot;))
+for (j in 1:num_files){
+  if (j == 1){
+    address = paste(&amp;quot;2019_all_Contracts_Full_20191009/&amp;quot;,
+                    &amp;quot;2019_all_Contracts_Full_20191010&amp;quot;, &amp;quot;_&amp;quot;, 1 ,&amp;quot;.csv&amp;quot;, sep = &amp;quot;&amp;quot;)
+    contractsA &amp;lt;- vroom(address, delim = &amp;quot;,&amp;quot;, col_select = c(award_id_piid, award_description,
+                                                         product_or_service_code,
+                                                         product_or_service_code_description, action_date,
+                                                         naics_description, awarding_agency_name,
+                                                         awarding_sub_agency_name, recipient_name,
+                                                         recipient_country_name, recipient_state_name,
+                                                         recipient_city_name, federal_action_obligation))
+    contractsA$award_description &amp;lt;- gsub(&amp;#39;\&amp;quot;|\\&amp;#39;, &amp;quot;&amp;quot;, contractsA$award_description, fixed = TRUE)
+    contractsA &amp;lt;- filter(contractsA, str_detect(str_to_lower(award_description), &amp;quot;coffee&amp;quot;))
+    print(paste(&amp;quot;File Completed: &amp;quot;, j))
+  } else{
+    address = paste(&amp;quot;2019_all_Contracts_Full_20191009/&amp;quot;,
+                    &amp;quot;2019_all_Contracts_Full_20191010&amp;quot;, &amp;quot;_&amp;quot;, j ,&amp;quot;.csv&amp;quot;, sep = &amp;quot;&amp;quot;)
+    contractsB &amp;lt;- vroom(address, delim = &amp;quot;,&amp;quot;, col_select = c(award_id_piid, award_description,
+                                                            product_or_service_code,
+                                                            product_or_service_code_description, action_date,
+                                                            naics_description, awarding_agency_name,
+                                                            awarding_sub_agency_name, recipient_name,
+                                                            recipient_country_name, recipient_state_name,
+                                                            recipient_city_name, federal_action_obligation))
+    contractsB$award_description &amp;lt;- gsub(&amp;#39;\&amp;quot;|\\&amp;#39;, &amp;quot;&amp;quot;, contractsB$award_description, fixed = TRUE)
+    contractsB &amp;lt;- filter(contractsB, str_detect(str_to_lower(award_description), &amp;quot;coffee&amp;quot;))
+    contractsA &amp;lt;- rbind(contractsA, contractsB)
+    print(paste(&amp;quot;File Completed: &amp;quot;, j))
+  }
+}
+
+
+saveRDS(contractsA, &amp;quot;coffeeContracts.RData&amp;quot;)
+
+
+#####
+# Loading FINANCIAL ASSISTANCE award data
+# Looping it so that I don&amp;#39;t fry my Macbook
+# The data are the 2019 contracts archive from
+# https://www.usaspending.gov/#/download_center/award_data_archive
+#####
+
+num_files = length(list.files(path = &amp;quot;2019_all_Assistance_Full_20191009&amp;quot;))
+for (j in 1:num_files){
+  if (j == 1){
+    address = paste(&amp;quot;2019_all_Assistance_Full_20191009/&amp;quot;,
+                    &amp;quot;2019_all_Assistance_Full_20191010&amp;quot;, &amp;quot;_&amp;quot;, 1 ,&amp;quot;.csv&amp;quot;, sep = &amp;quot;&amp;quot;)
+    financialA &amp;lt;- vroom(address, delim = &amp;quot;,&amp;quot;, col_select = c(award_id_fain, award_id_uri, award_description,
+                                                             cfda_title, action_date, awarding_agency_name,
+                                                             awarding_sub_agency_name, recipient_name,
+                                                             recipient_country_name, recipient_state_name,
+                                                             recipient_city_name, federal_action_obligation))
+    financialA$award_description &amp;lt;- gsub(&amp;#39;\&amp;quot;|\\&amp;#39;, &amp;quot;&amp;quot;, financialA$award_description, fixed = TRUE)
+    financialA &amp;lt;- filter(financialA, str_detect(str_to_lower(award_description), &amp;quot;coffee&amp;quot;))
+    print(paste(&amp;quot;File Completed: &amp;quot;, j))
+  } else{
+    address = paste(&amp;quot;2019_all_Assistance_Full_20191009/&amp;quot;,
+                    &amp;quot;2019_all_Assistance_Full_20191010&amp;quot;, &amp;quot;_&amp;quot;, j ,&amp;quot;.csv&amp;quot;, sep = &amp;quot;&amp;quot;)
+    financialB &amp;lt;- vroom(address, delim = &amp;quot;,&amp;quot;, col_select = c(award_id_fain, award_id_uri, award_description,
+                                                             cfda_title, action_date, awarding_agency_name,
+                                                             awarding_sub_agency_name, recipient_name,
+                                                             recipient_country_name, recipient_state_name,
+                                                             recipient_city_name, federal_action_obligation))
+    financialB$award_description &amp;lt;- gsub(&amp;#39;\&amp;quot;|\\&amp;#39;, &amp;quot;&amp;quot;, financialB$award_description, fixed = TRUE)
+    financialB &amp;lt;- filter(financialB, str_detect(str_to_lower(award_description), &amp;quot;coffee&amp;quot;))
+    financialA &amp;lt;- rbind(financialA, financialB)
+    print(paste(&amp;quot;File Completed: &amp;quot;, j))
+  }
+}
+
+
+
+#####
+# Beginning the Analysis
+# Looking at what&amp;#39;s in the contracts and financial assistance data sets
+# Basically, picking a direction for further analyses
+#####
+
+# Total Contract Spend/Number of Awards
+# Note: I first eyeballed these to ensure they were actually about coffee - they are
+
+contractTot &amp;lt;- contractsA %&amp;gt;%
+  summarise(totalObligations = sum(federal_action_obligation),
+            numAwards = n_distinct(award_id_piid)) # $11.7 million
+contractTot$fundType &amp;lt;- &amp;quot;Contracts&amp;quot;
+
+# Total Financial Assistance Spend/Number of Awards
+# First looking at assistance programs (called CFDAs) to see if they match up
+# CFDA Analysis
+financialA %&amp;gt;%
+  group_by(cfda_title) %&amp;gt;%
+  summarize(totalObligations = sum(federal_action_obligation)) %&amp;gt;%
+  arrange(desc(totalObligations))
+
+# clearly some noise here, but I need more information
+# just going to download to a Excel file
+
+write.xlsx(financialA, &amp;quot;coffeefinancial.xlsx&amp;quot;)
+
+# ALRIGHT, found the CFDAs that I&amp;#39;m not interested in
+financialC &amp;lt;- financialA %&amp;gt;%
+  filter(cfda_title != &amp;quot;ALLERGY AND INFECTIOUS DISEASES RESEARCH&amp;quot;, cfda_title != &amp;quot;BASIC CENTER GRANT&amp;quot;,
+         cfda_title != &amp;quot;DRUG-FREE COMMUNITIES SUPPORT PROGRAM financial&amp;quot;,
+         cfda_title != &amp;quot;FOSTER GRANDPARENT PROGRAM&amp;quot;, cfda_title != &amp;quot;HIGHWAY PLANNING AND CONSTRUCTION&amp;quot;,
+         cfda_title != &amp;quot;PUBLIC DIPLOMACY PROGRAMS&amp;quot;, cfda_title != &amp;quot;RETIRED AND SENIOR VOLUNTEER PROGRAM&amp;quot;,
+         cfda_title != &amp;quot;SCIENCE&amp;quot;, cfda_title != &amp;quot;SUBSTANCE ABUSE AND MENTAL HEALTH SERVICES
+         PROJECTS OF REGIONAL AND NATIONAL SIGNIFICANCE&amp;quot;, cfda_title != &amp;quot;TRIO UPWARD BOUND&amp;quot;,
+         cfda_title != &amp;quot;VOLUNTEERS IN SERVICE TO AMERICA&amp;quot;)
+
+# Saving the version with just CFDAs of interest
+saveRDS(financialC, &amp;quot;coffeeGrants.RData&amp;quot;)
+
+# NOW, actually calculating totals for Financial Assistance
+financialTot &amp;lt;- financialC %&amp;gt;%
+  summarise(totalObligations = sum(federal_action_obligation),
+            numAwards = n_distinct(award_id_fain)) # $7.1 million
+financialTot$fundType &amp;lt;- &amp;quot;Financial Assistance&amp;quot;
+
+# Binding contracts and financial assistance to see how they compare
+tots &amp;lt;- bind_rows(financialTot, contractTot)
+
+totsSum &amp;lt;- tots %&amp;gt;%
+  summarise(totalObligations = sum(totalObligations))
+
+tots &amp;lt;- tots %&amp;gt;%
+  group_by(fundType, totalObligations, numAwards) %&amp;gt;%
+  summarize(&amp;quot;PercentFunding&amp;quot; = totalObligations/totsSum$totalObligations)
+
+# Formatting data for a table
+tots$totalObligations &amp;lt;- dollar(tots$totalObligations)
+tots$PercentFunding &amp;lt;- percent(tots$PercentFunding)
+tots$numAwards &amp;lt;- comma(tots$numAwards)
+
+# Cleaning the variable names
+tots &amp;lt;- tots %&amp;gt;%
+  rename(&amp;#39;Award Type&amp;#39; = fundType, &amp;#39;Total Obligations&amp;#39; = totalObligations, &amp;#39;Number of Awards&amp;#39; = numAwards,
+         &amp;#39;Percent of FY19 Funding&amp;#39; = PercentFunding)
+
+# attempting a pretty table
+# NOTE: code entirely ripped off from: https://www.littlemissdata.com/blog/prettytables
+formattable(tots,
+            align =c(&amp;quot;l&amp;quot;,&amp;quot;c&amp;quot;,&amp;quot;c&amp;quot;, &amp;quot;c&amp;quot;),
+            list(`Award Type` = formatter(
+              &amp;quot;span&amp;quot;, style = ~ style(color = &amp;quot;grey&amp;quot;, font.weight = &amp;quot;bold&amp;quot;))
+            ))
+
+# This table makes contracts look more interesting to me, so focussing on that
+
+
+#####
+# Further Analyses of Coffee Contracts
+# Basically, what&amp;#39;s going on here?
+#####
+
+# Analysis by Agency
+contractsA %&amp;gt;%
+  group_by(awarding_agency_name) %&amp;gt;%
+  summarise(totalObligations = sum(federal_action_obligation)) %&amp;gt;%
+  arrange(desc(totalObligations)) # Almost ALL of this is DoD (&amp;gt;90%)
+
+# Prepping for a Pretty Table
+cTable &amp;lt;- contractsA %&amp;gt;%
+  group_by(awarding_agency_name) %&amp;gt;%
+  summarise(totalObligations = sum(federal_action_obligation),
+            totalAwards = n_distinct(award_id_piid),
+            percentFunding = totalObligations/sum(contractsA$federal_action_obligation)) %&amp;gt;%
+  filter(totalObligations &amp;gt; 0) %&amp;gt;%
+  arrange(desc(totalObligations))
+
+cTable$awarding_agency_name &amp;lt;- str_to_title(gsub(&amp;quot;\\s*\\([^\\)]+\\)&amp;quot;,&amp;quot;&amp;quot;,
+                                                  as.character(cWaffle$awarding_agency_name)),
+                                                                 locale = &amp;quot;en&amp;quot;)
+cTable$totalObligations &amp;lt;- dollar(cTable$totalObligations)
+cTable$totalAwards &amp;lt;- comma(cTable$totalAwards)
+cTable$percentFunding &amp;lt;- percent(cTable$percentFunding)
+
+cTable &amp;lt;- cTable %&amp;gt;%
+  rename(&amp;#39;Total Obligations&amp;#39; = totalObligations,
+         &amp;#39;Number of Awards&amp;#39; = totalAwards,
+         &amp;quot;Percent of FY19 Contracts Funding&amp;quot; = percentFunding,
+         &amp;quot;Awarding Agency&amp;quot; = awarding_agency_name)
+
+formattable(cTable,
+            align =c(&amp;quot;l&amp;quot;,&amp;quot;c&amp;quot;,&amp;quot;c&amp;quot;, &amp;quot;c&amp;quot;),
+            list(`Awarding Agency` = formatter(
+              &amp;quot;span&amp;quot;, style = ~ style(color = &amp;quot;grey&amp;quot;, font.weight = &amp;quot;bold&amp;quot;))
+            ))
+
+# Gonna focus on DoD
+contractsA %&amp;gt;%
+  filter(awarding_agency_name == &amp;quot;DEPARTMENT OF DEFENSE (DOD)&amp;quot;) %&amp;gt;%
+  group_by(awarding_sub_agency_name) %&amp;gt;%
+  summarise(totalObligations = sum(federal_action_obligation)) %&amp;gt;%
+  arrange(desc(totalObligations)) # DLA has, &amp;gt;90% of these contracts. Makes sense.
+
+# Gonna focus on DLA: Where&amp;#39;s the money going?
+# US vs Elsewhere
+contractsA %&amp;gt;%
+  filter(awarding_agency_name == &amp;quot;DEPARTMENT OF DEFENSE (DOD)&amp;quot; &amp;amp;
+           awarding_sub_agency_name == &amp;quot;DEFENSE LOGISTICS AGENCY&amp;quot;) %&amp;gt;%
+  group_by(recipient_country_name) %&amp;gt;%
+  summarise(totalObligations = sum(federal_action_obligation)) %&amp;gt;%
+  arrange(desc(totalObligations)) # most going to the US
+
+# Digging deeper in the US spending
+usCoffee &amp;lt;- contractsA %&amp;gt;%
+  filter(awarding_agency_name == &amp;quot;DEPARTMENT OF DEFENSE (DOD)&amp;quot; &amp;amp;
+           awarding_sub_agency_name == &amp;quot;DEFENSE LOGISTICS AGENCY&amp;quot; &amp;amp;
+           recipient_country_name == &amp;quot;UNITED STATES&amp;quot;) %&amp;gt;%
+  group_by(recipient_state_name) %&amp;gt;%
+  summarise(totalObligations = sum(federal_action_obligation)) %&amp;gt;%
+  arrange(desc(totalObligations))
+
+#####
+# Let&amp;#39;s make a choropleth!
+# Admittedly, very little effort was put in here.
+# Not a fan of chloropleths, it turns out
+#####
+
+# checking that states look pretty
+unique(usCoffee$recipient_state_name)
+# removing Guam because it&amp;#39;s not on my map
+usCoffee$recipient_state_name[usCoffee$recipient_state_name == &amp;quot;GUAM&amp;quot;] &amp;lt;- NA
+
+coffeeStates &amp;lt;- usCoffee %&amp;gt;%
+  filter(!is.na(recipient_state_name)) %&amp;gt;% #removes Guam
+  group_by(recipient_state_name) %&amp;gt;%
+  summarise(totalObligations = sum(totalObligations)) %&amp;gt;%
+  arrange(desc(totalObligations))
+
+# This is all being done to work with the package below to get state location data
+coffeeStates &amp;lt;- coffeeStates %&amp;gt;%
+  rename(state = recipient_state_name)
+coffeeStates$state &amp;lt;- tolower(coffeeStates$state)
+
+stateList &amp;lt;- urbnmapr::states #urban institutes state location data
+stateList$state_name &amp;lt;- tolower(stateList$state_name)
+
+
+coffeeStatesFIN &amp;lt;- left_join(stateList, coffeeStates, by = c(&amp;quot;state_name&amp;quot; = &amp;quot;state&amp;quot;))
+
+
+map &amp;lt;- coffeeStatesFIN %&amp;gt;%
+  ggplot(aes(long, lat, group = group, fill = totalObligations)) +
+  geom_polygon(color = &amp;quot;grey10&amp;quot;, size = 0.2) +
+  scale_fill_viridis(discrete = FALSE) +
+  labs(title = &amp;quot;Where DLA &amp;#39;Coffee&amp;#39; Contracts are Going&amp;quot;,
+       subtitle = &amp;quot;Fiscal Year 2019&amp;quot;,
+       caption = &amp;quot;Created by @Shunley42; Source: USAspending.gov&amp;quot;,
+       fill = &amp;quot;Dollars Obligated&amp;quot;) +
+  theme_void() +
+  theme(panel.background = element_rect(fill = NA, colour = &amp;quot;#cccccc&amp;quot;),
+        plot.title = element_text(size = 20,
+                                  hjust = 0.5,
+                                  family = &amp;quot;Helvetica&amp;quot;,
+                                  color = &amp;quot;#000000&amp;quot;),
+        plot.subtitle = element_text(size = 15,
+                                    hjust = 0.5,
+                                    family = &amp;quot;Helvetica&amp;quot;,
+                                    color = &amp;quot;#000000&amp;quot;),
+        plot.caption = element_text(size = 15,
+                                    hjust = 0.5,
+                                    family = &amp;quot;Helvetica&amp;quot;,
+                                    color = &amp;quot;#000000&amp;quot;),
+        legend.title = element_text(size = 10,
+                                    hjust = 0.5,
+                                    family = &amp;quot;Helvetica&amp;quot;,
+                                    color = &amp;quot;#000000&amp;quot;))
+
+map&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Top Recipients of US Federal Contracts in FY 2018</title>
+      <link>/post/top-recipients-of-us-federal-contracts-in-fy-2018/</link>
+      <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>/post/top-recipients-of-us-federal-contracts-in-fy-2018/</guid>
+      <description>
+
+
+&lt;div id=&#34;making-sense-of-usaspending-contracts-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Making Sense of USASpending Contracts Data&lt;/h1&gt;
+&lt;p&gt;The contract data from &lt;a href=&#34;https://www.USASpending.gov&#34;&gt;&lt;strong&gt;USASpending&lt;/strong&gt;&lt;/a&gt; can be overwhelming to parse through. Each year contains millions of rows and hundreds of columns of data, making it difficult for anyone to dive into at first. To make it a bit easier, I wanted to run through a simple analysis I conducted using contracts data from FY18.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-couple-notes&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;A Couple Notes&lt;/h1&gt;
+&lt;p&gt;The first question that might come to mind is - why am I looking at FY 2018 data when we just kicked off FY 2020 (October 1, 2019)? Aren’t the data a bit dated? My decision was based on the fact that I wanted a &lt;strong&gt;complete&lt;/strong&gt; year of data. FY 2019 has ended, but it’s not completely in the books (i.e., folks are still logging changes), so I will hold off on using that data for a few more weeks.&lt;/p&gt;
+&lt;p&gt;Throughout this post, I will be referring exclusively to Federal “obligations”, which is a strange term for those who aren’t familiar with Federal finances. In short, an obligation is a binding agreement in which the Federal government has agreed to pay money, which is close enough to actual spending for my purposes. If you want a more (perhaps overly) detailed explanation, you can check out this post &lt;a href=&#34;https://fedspendingtransparency.github.io/whitepapers/obligation/&#34;&gt;&lt;strong&gt;here&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;loading-the-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Loading the Data&lt;/h1&gt;
+&lt;p&gt;Before getting into the fun stuff, let’s load the data. For this analysis, everything you need can be found in the &lt;a href=&#34;https://www.usaspending.gov/#/download_center/award_data_archive&#34;&gt;&lt;strong&gt;USASpending Award Archives&lt;/strong&gt;&lt;/a&gt;. Just select “Contracts” and “2018”, and a zip file will download. As a heads-up, the contract archives for each year are fairly large. The zip file weighs in at 918 MB, and once unzipped, the CSVs total up to around 10 GB or so. I was able to run all of the code below using a 2017 MacBook with 8 GB of RAM, but it took a minute and crashed out a couple times.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(vroom)
+# Create Working Directory Short Cuts
+local_dir &amp;lt;- &amp;quot;/Users/samhunley/Desktop/2018_all_Contracts_Full_20191009&amp;quot; # Your folder location here
+setwd(local_dir)
+# Loading that data
+# vroom can load multiple CSVs at once. The variable &amp;quot;files&amp;quot; stores the file names to do this.
+files &amp;lt;- fs::dir_ls(glob = &amp;quot;2018_all_Contracts_Full_20191010_*csv&amp;quot;)
+contracts18 &amp;lt;- vroom(files, delim = &amp;quot;,&amp;quot;, col_select = c(award_id_piid, award_description, 
+                                                        product_or_service_code_description, action_date, 
+                                                        naics_description, awarding_agency_name, 
+                                                        awarding_sub_agency_name, recipient_name, 
+                                                        recipient_country_name, recipient_state_name, 
+                                                        recipient_city_name, 
+                                                        federal_action_obligation))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;compressing-and-formatting-the-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Compressing and Formatting the data&lt;/h1&gt;
+&lt;p&gt;Given the large files involved, I recommend compressing the data into a smaller format by summarizing down to only the information we care about.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Compressing the data by summarizing
+contracts18 &amp;lt;- contracts18 %&amp;gt;% 
+  group_by(recipient_name, product_or_service_code_description, naics_description, awarding_agency_name, 
+           awarding_sub_agency_name) %&amp;gt;% 
+  summarise(fundsObligated = sum(federal_action_obligation))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;beginning-the-analysis&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Beginning the Analysis&lt;/h1&gt;
+&lt;p&gt;I wanted to see the top recipients of contract funding in FY 2018. So the first thing I did was summarize funds obligated according to recipient names. I used the following code to produce an ordered list of contract recipients according to obligations. I have typed out the top 10 below the code.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Simple approach to summarizing according to recipients
+# Note - I opted to remove entries with obligations of 0 or less (deobligations)
+vendors &amp;lt;- contracts18 %&amp;gt;% 
+  group_by(recipient_name) %&amp;gt;% 
+  summarise(fundsObligated = sum(fundsObligated)) %&amp;gt;% 
+  filter(fundsObligated &amp;gt; 0) %&amp;gt;% 
+  arrange(desc(fundsObligated))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;top-10-recipients-of-federal-contracts-in-fy-2018&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Top 10 Recipients of Federal Contracts in FY 2018&lt;/h1&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;strong&gt;Lockheed Martin&lt;/strong&gt;: $36.7B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Boeing*&lt;/strong&gt;: $28.0B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Raytheon&lt;/strong&gt;: $17.0B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Northrop Grumman&lt;/strong&gt;: $9.5B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;McKesson&lt;/strong&gt;: $8.9B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Huntington Ingalls Industries&lt;/strong&gt;: $7.0B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;GD Electric Boat&lt;/strong&gt;: $5.7B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;United Technologies&lt;/strong&gt;: $5.4B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Booz Allen Hamilton&lt;/strong&gt;: $4.1B&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Humana&lt;/strong&gt;: $4.1B&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;* &lt;em&gt;A note on Boeing: When you run the code yourself, you will see that Boeing is actually listed twice, once under “The Boeing Company” and again as “Boeing Company, The”. This is a common issue in the contracts data. I’ve adjusted for it in the Top 10 above&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;looking-more-into-lockheed-martin&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Looking more into Lockheed Martin&lt;/h1&gt;
+&lt;p&gt;Now, I can vaguely tell that there’s a significant amount of defense and health related spending involved, but I want to know specifics. To get a better sense of what this money is being spent on, I’m going to pick on Lockheed Martin because they are at the top of the list.&lt;/p&gt;
+&lt;p&gt;You can breakdown contract spending according to a variety of criteria. Personally, my first question is which agencies are paying Lockheed Martin? See below the code for a summary.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Filtering to look at just LOCKHEED MARTIN CORPORATION 
+lockheed &amp;lt;- contracts18 %&amp;gt;% 
+  filter(recipient_name == &amp;quot;LOCKHEED MARTIN CORPORATION&amp;quot;)
+# Summarizing by funding agencies
+agencies &amp;lt;- lockheed %&amp;gt;% 
+  group_by(awarding_agency_name) %&amp;gt;% 
+  summarise(fundsObligated = sum(fundsObligated)) %&amp;gt;% 
+  filter(fundsObligated &amp;gt; 0) %&amp;gt;% 
+  arrange(desc(fundsObligated))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;agencies-contracts-to-lockheed-martin-in-fy-2018&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Agencies Contracts to Lockheed Martin in FY 2018&lt;/h1&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;strong&gt;Department of Defense&lt;/strong&gt;: $35,219,980,889&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;NASA&lt;/strong&gt;: $1,268,964,214&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Department of Transportation&lt;/strong&gt;: $111,747,754&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;General Services Administration&lt;/strong&gt;: $69,696,297&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Homeland Security&lt;/strong&gt;: $40,203,136&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Social Security&lt;/strong&gt;: $1,924,246&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The Justice Department&lt;/strong&gt;: $308,650&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div id=&#34;one-of-these-is-not-like-the-others&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;One of These is not like the others!&lt;/h1&gt;
+&lt;p&gt;Seriously, Social Security paid almost $2 million to Lockheed Martin? WHY? I’m not always up on the latest news, but I don’t remember Social Security having any aerospace needs.&lt;/p&gt;
+&lt;p&gt;To get this answer, we can look at the North American Industry Categorization System (NAICS) codes and Product or Service Codes (PSCs). The script below isolates the codes in question. When you do that, though, you can see that the associated NAICS code is “Other computer related services” and the associated PSC is “IT and Telecom - Other IT and Telecommunications”. Neither of these descriptors are particularly…enlightening.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ssa &amp;lt;- lockheed %&amp;gt;% 
+  filter(awarding_agency_name == &amp;quot;SOCIAL SECURITY ADMINISTRATION (SSA)&amp;quot;)
+# NAICs
+ssa %&amp;gt;% 
+  group_by(naics_description) %&amp;gt;% 
+  summarise(fundsObligated = sum(fundsObligated))
+# PSCs
+ssa %&amp;gt;% 
+  group_by(product_or_service_code_description) %&amp;gt;% 
+  summarise(fundsObligated = sum(fundsObligated)) %&amp;gt;% 
+  arrange(desc(fundsObligated))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;digging-deeper&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Digging Deeper&lt;/h1&gt;
+&lt;p&gt;To get more details, one would have to track down the specific contract(s) associated with this spending. This requires reloading the big dataset and then searching for SSA and Lockheed Martin. After doing this, I found 2 entries and 1 unique award associated with Social Security and Lockheed Martin, labelled with the ID # 28321318FDS030006.&lt;/p&gt;
+&lt;p&gt;Using USAspending’s Advanced Search, I looked for this award, and I found… a &lt;a href=&#34;https://www.usaspending.gov/#/award/6385598&#34;&gt;&lt;strong&gt;contract&lt;/strong&gt;&lt;/a&gt; to Leidos Innovations?? The plot thickens!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-might-be-happening-here&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;What might be happening here?&lt;/h1&gt;
+&lt;p&gt;Searching for the contract on &lt;a href=&#34;https://www.FPDS.gov&#34;&gt;&lt;strong&gt;FPDS.gov&lt;/strong&gt;&lt;/a&gt; (where USAspending gets its contract data), I found 3 entries for this contract, 2 actions going to Lockheed Martin and 1 going to Leidos. Based on my knowledge, I would say that there are a 3 possibilities for what’s going on here.&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;Perhaps the award was given to &lt;em&gt;both&lt;/em&gt; Lockheed Martin and Leidos.&lt;/li&gt;
+&lt;li&gt;Maybe the award was initially given to LockheedMartin, but then later transferred to Leidos for unknown reasons.
+&lt;strong&gt;Or&lt;/strong&gt; - my favorite possibility -&lt;/li&gt;
+&lt;li&gt;This is all the result of a typo! Lockheed Martin never received this award, and it was intended for Leidos from the get-go.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div id=&#34;it-remains-a-mystery-for-now&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;It Remains a Mystery for Now!&lt;/h1&gt;
+&lt;p&gt;As much as I would love to solve this mystery, my trail has run cold at this point. So I am calling it quits. However, this is an example of the sort of information you can dig into using USASpending data.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>An example preprint / working paper</title>
+      <link>/publication/preprint/</link>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0000</pubDate>
+      <guid>/publication/preprint/</guid>
+      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click the &lt;em&gt;Slides&lt;/em&gt; button above to demo Academic&amp;rsquo;s Markdown slides feature.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Supplementary notes can be added here, including &lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;code and math&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Slides</title>
+      <link>/slides/example/</link>
+      <pubDate>Tue, 05 Feb 2019 00:00:00 +0000</pubDate>
+      <guid>/slides/example/</guid>
+      <description>
+
+&lt;h1 id=&#34;welcome-to-slides&#34;&gt;Welcome to Slides&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://sourcethemes.com/academic/&#34; target=&#34;_blank&#34;&gt;Academic&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;features&#34;&gt;Features&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Efficiently write slides in Markdown&lt;/li&gt;
+&lt;li&gt;3-in-1: Create, Present, and Publish your slides&lt;/li&gt;
+&lt;li&gt;Supports speaker notes&lt;/li&gt;
+&lt;li&gt;Mobile friendly slides&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;controls&#34;&gt;Controls&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Next: &lt;code&gt;Right Arrow&lt;/code&gt; or &lt;code&gt;Space&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Previous: &lt;code&gt;Left Arrow&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Start: &lt;code&gt;Home&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Finish: &lt;code&gt;End&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Overview: &lt;code&gt;Esc&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Speaker notes: &lt;code&gt;S&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Fullscreen: &lt;code&gt;F&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Zoom: &lt;code&gt;Alt + Click&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/hakimel/reveal.js#pdf-export&#34; target=&#34;_blank&#34;&gt;PDF Export&lt;/a&gt;: &lt;code&gt;E&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;code-highlighting&#34;&gt;Code Highlighting&lt;/h2&gt;
+
+&lt;p&gt;Inline code: &lt;code&gt;variable&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Code block:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;porridge = &amp;quot;blueberry&amp;quot;
+if porridge == &amp;quot;blueberry&amp;quot;:
+    print(&amp;quot;Eating...&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;math&#34;&gt;Math&lt;/h2&gt;
+
+&lt;p&gt;In-line math: $x + y = z$&lt;/p&gt;
+
+&lt;p&gt;Block math:&lt;/p&gt;
+
+&lt;p&gt;$$
+f\left( x \right) = \;\frac{{2\left( {x + 4} \right)\left( {x - 4} \right)}}{{\left( {x + 4} \right)\left( {x + 1} \right)}}
+$$&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;fragments&#34;&gt;Fragments&lt;/h2&gt;
+
+&lt;p&gt;Make content appear incrementally&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{{% fragment %}} One {{% /fragment %}}
+{{% fragment %}} **Two** {{% /fragment %}}
+{{% fragment %}} Three {{% /fragment %}}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Press &lt;code&gt;Space&lt;/code&gt; to play!&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&#34;fragment &#34; &gt;
+   One
+&lt;/span&gt;
+&lt;span class=&#34;fragment &#34; &gt;
+   &lt;strong&gt;Two&lt;/strong&gt;
+&lt;/span&gt;
+&lt;span class=&#34;fragment &#34; &gt;
+   Three
+&lt;/span&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;A fragment can accept two optional parameters:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;class&lt;/code&gt;: use a custom style (requires definition in custom CSS)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;weight&lt;/code&gt;: sets the order in which a fragment appears&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;speaker-notes&#34;&gt;Speaker Notes&lt;/h2&gt;
+
+&lt;p&gt;Add speaker notes to your presentation&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;{{% speaker_note %}}
+- Only the speaker can read these notes
+- Press `S` key to view
+{{% /speaker_note %}}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Press the &lt;code&gt;S&lt;/code&gt; key to view the speaker notes!&lt;/p&gt;
+
+&lt;aside class=&#34;notes&#34;&gt;
+  &lt;ul&gt;
+&lt;li&gt;Only the speaker can read these notes&lt;/li&gt;
+&lt;li&gt;Press &lt;code&gt;S&lt;/code&gt; key to view&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/aside&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;themes&#34;&gt;Themes&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;black: Black background, white text, blue links (default)&lt;/li&gt;
+&lt;li&gt;white: White background, black text, blue links&lt;/li&gt;
+&lt;li&gt;league: Gray background, white text, blue links&lt;/li&gt;
+&lt;li&gt;beige: Beige background, dark text, brown links&lt;/li&gt;
+&lt;li&gt;sky: Blue background, thin dark text, blue links&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;ul&gt;
+&lt;li&gt;night: Black background, thick white text, orange links&lt;/li&gt;
+&lt;li&gt;serif: Cappuccino background, gray text, brown links&lt;/li&gt;
+&lt;li&gt;simple: White background, black text, blue links&lt;/li&gt;
+&lt;li&gt;solarized: Cream-colored background, dark green text, blue links&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+
+&lt;section data-noprocess data-shortcode-slide
+  
+      
+      data-background-image=&#34;/img/boards.jpg&#34;
+  &gt;
+
+
+&lt;h2 id=&#34;custom-slide&#34;&gt;Custom Slide&lt;/h2&gt;
+
+&lt;p&gt;Customize the slide style and background&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;{{&amp;lt; slide background-image=&amp;quot;/img/boards.jpg&amp;quot; &amp;gt;}}
+{{&amp;lt; slide background-color=&amp;quot;#0000FF&amp;quot; &amp;gt;}}
+{{&amp;lt; slide class=&amp;quot;my-style&amp;quot; &amp;gt;}}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;custom-css-example&#34;&gt;Custom CSS Example&lt;/h2&gt;
+
+&lt;p&gt;Let&amp;rsquo;s make headers navy colored.&lt;/p&gt;
+
+&lt;p&gt;Create &lt;code&gt;assets/css/reveal_custom.css&lt;/code&gt; with:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-css&#34;&gt;.reveal section h1,
+.reveal section h2,
+.reveal section h3 {
+  color: navy;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&#34;questions&#34;&gt;Questions?&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://discourse.gohugo.io&#34; target=&#34;_blank&#34;&gt;Ask&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://sourcethemes.com/academic/docs/&#34; target=&#34;_blank&#34;&gt;Documentation&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Privacy Policy</title>
+      <link>/privacy/</link>
+      <pubDate>Thu, 28 Jun 2018 00:00:00 +0100</pubDate>
+      <guid>/privacy/</guid>
+      <description>&lt;p&gt;&amp;hellip;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Terms</title>
+      <link>/terms/</link>
+      <pubDate>Thu, 28 Jun 2018 00:00:00 +0100</pubDate>
+      <guid>/terms/</guid>
+      <description>&lt;p&gt;&amp;hellip;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>External Project</title>
+      <link>/project/external-project/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      <guid>/project/external-project/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Internal Project</title>
+      <link>/project/internal-project/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      <guid>/project/internal-project/</guid>
+      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
+
+&lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
+
+&lt;p&gt;Cras aliquam rhoncus ipsum, in hendrerit nunc mattis vitae. Duis vitae efficitur metus, ac tempus leo. Cras nec fringilla lacus. Quisque sit amet risus at ipsum pharetra commodo. Sed aliquam mauris at consequat eleifend. Praesent porta, augue sed viverra bibendum, neque ante euismod ante, in vehicula justo lorem ac eros. Suspendisse augue libero, venenatis eget tincidunt ut, malesuada at lorem. Donec vitae bibendum arcu. Aenean maximus nulla non pretium iaculis. Quisque imperdiet, nulla in pulvinar aliquet, velit quam ultrices quam, sit amet fringilla leo sem vel nunc. Mauris in lacinia lacus.&lt;/p&gt;
+
+&lt;p&gt;Suspendisse a tincidunt lacus. Curabitur at urna sagittis, dictum ante sit amet, euismod magna. Sed rutrum massa id tortor commodo, vitae elementum turpis tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean purus turpis, venenatis a ullamcorper nec, tincidunt et massa. Integer posuere quam rutrum arcu vehicula imperdiet. Mauris ullamcorper quam vitae purus congue, quis euismod magna eleifend. Vestibulum semper vel augue eget tincidunt. Fusce eget justo sodales, dapibus odio eu, ultrices lorem. Duis condimentum lorem id eros commodo, in facilisis mauris scelerisque. Morbi sed auctor leo. Nullam volutpat a lacus quis pharetra. Nulla congue rutrum magna a ornare.&lt;/p&gt;
+
+&lt;p&gt;Aliquam in turpis accumsan, malesuada nibh ut, hendrerit justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed erat nec justo posuere suscipit. Donec ut efficitur arcu, in malesuada neque. Nunc dignissim nisl massa, id vulputate nunc pretium nec. Quisque eget urna in risus suscipit ultricies. Pellentesque odio odio, tincidunt in eleifend sed, posuere a diam. Nam gravida nisl convallis semper elementum. Morbi vitae felis faucibus, vulputate orci placerat, aliquet nisi. Aliquam erat volutpat. Maecenas sagittis pulvinar purus, sed porta quam laoreet at.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>An example journal article</title>
+      <link>/publication/journal-article/</link>
+      <pubDate>Tue, 01 Sep 2015 00:00:00 +0000</pubDate>
+      <guid>/publication/journal-article/</guid>
+      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click the &lt;em&gt;Cite&lt;/em&gt; button above to demo the feature to enable visitors to import publication metadata into their reference management software.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click the &lt;em&gt;Slides&lt;/em&gt; button above to demo Academic&amp;rsquo;s Markdown slides feature.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Supplementary notes can be added here, including &lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;code and math&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>An example conference paper</title>
+      <link>/publication/conference-paper/</link>
+      <pubDate>Mon, 01 Jul 2013 00:00:00 +0000</pubDate>
+      <guid>/publication/conference-paper/</guid>
+      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click the &lt;em&gt;Cite&lt;/em&gt; button above to demo the feature to enable visitors to import publication metadata into their reference management software.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click the &lt;em&gt;Slides&lt;/em&gt; button above to demo Academic&amp;rsquo;s Markdown slides feature.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Supplementary notes can be added here, including &lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;code and math&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
 </rss>
