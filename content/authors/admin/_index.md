@@ -1,7 +1,7 @@
 ---
 authors:
 - admin
-bio: I help lead a data analytics team within the US Treasury. All views presented on this site are mine alone.
+bio: All views presented on this site are mine alone.
 education:
   courses:
   - course: PhD in Cognitive Psychology
@@ -16,9 +16,9 @@ education:
 email: ""
 name: Sam Hunley
 organizations:
-- name: Fiscal Service, US Treasury
+- name: Food and Nutrition Service, USDA
   url: ""
-role: Product Owner of Research & Analytics
+role: Program Analyst
 social:
 - icon: envelope
   icon_pack: fas
